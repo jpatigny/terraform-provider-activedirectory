@@ -3,7 +3,6 @@ package activedirectory
 import (
         "github.com/hashicorp/terraform/helper/schema"
         "github.com/hashicorp/terraform/terraform"
-
         "fmt"
 )
 
@@ -45,7 +44,7 @@ func Provider() terraform.ResourceProvider {
                         "authentication": &schema.Schema{
                                 Type:        schema.TypeString,
                                 Optional:    true,
-                                DefaultFunc: schema.EnvDefaultFunc("AUTHENTICATION", false),
+                                DefaultFunc: schema.EnvDefaultFunc("AUTHENTICATION", nil),
                                 Description: "Authentication protocol for WinRM",
                         },
                         "default_computer_container": &schema.Schema{

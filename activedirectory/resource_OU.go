@@ -49,11 +49,9 @@ func resourceOUCreate(d *schema.ResourceData, m interface{}) error {
 	if protected {
 		fmt.Println("[Create] protected var is set to true")
 		psCommand = "New-ADOrganizationalUnit -Name \\\"" + name + `" -Path "` + path + "\\\" -ProtectedFromAccidentalDeletion $True"
-		fmt.Println("%v, psCommand")
 	} else {
 		fmt.Println("[Create] protected var is set to true")
 		psCommand = "New-ADOrganizationalUnit -Name \\\"" + name + `" -Path "` + path + "\\\" -ProtectedFromAccidentalDeletion $False"
-		fmt.Println("%v, psCommand")
 	}
 	_, err := goPSRemoting.RunPowershellCommand(client.username, client.password, client.server, psCommand, client.usessl, client.usessh, client.authentication)
 	if err != nil {

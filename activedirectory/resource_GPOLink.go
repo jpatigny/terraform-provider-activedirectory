@@ -80,8 +80,8 @@ func resourceGPOLinkRead(d *schema.ResourceData, m interface{}) error {
 
 	name 				:= d.Get("name").(string)
 	organizational_unit := d.Get("organizational_unit").(string)
-	enable 				:= d.Get("enable").(string)
-	enforce 			:= d.Get("enforce").(string)
+	//enable 				:= d.Get("enable").(string)
+	//enforce 			:= d.Get("enforce").(string)
 	var psCommand string 
 
 	//Get-DnsServerResourceRecord -ZoneName "contoso.com" -Name "Host03" -RRType "A"

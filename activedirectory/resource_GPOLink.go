@@ -54,6 +54,12 @@ func resourceGPOLinkCreate(d *schema.ResourceData, m interface{}) error {
 	if organizational_unit == "" {
 		return errors.New("Must provide an OU where to link GPO to")
 	}
+	if enable == "" {
+		return errors.New("Must provide a boolean value for GPO enabled of not.")
+	}
+	if enforce == "" {
+		return errors.New("Must provide a boolean value for GPO enforced of not.")
+	}
 
 	psCommand = "New-GPLink -Name " + name + "-Target " + organizational_unit
 
@@ -63,7 +69,7 @@ func resourceGPOLinkCreate(d *schema.ResourceData, m interface{}) error {
 		return err
 	}
 
-	var id string = name + "_" + organizational_unit + "_" + enable + "_" + enforce
+	var id string = name + "_" + organizational_unit
  	d.SetId(id)
 	return nil
 }
@@ -106,7 +112,7 @@ func resourceGPOLinkRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	var id string = name + "_" + organizational_unit + "_" + enable + "_" + enforce
+	var id string = name + "_" + organizational_unit
  	d.SetId(id)
 
 	return nil

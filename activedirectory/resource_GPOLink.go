@@ -57,7 +57,7 @@ func resourceGPOLinkCreate(d *schema.ResourceData, m interface{}) error {
 
 	psCommand = "New-GPLink -Name " + name + "-Target " + organizational_unit
 
-    	_, err := goPSRemoting.RunPowershellCommand(client.username, client.password, client.server, psCommand, client.usessl, client.usessh)
+    	_, err := goPSRemoting.RunPowershellCommand(client.username, client.password, client.server, psCommand, client.usessl, client.usessh, client.authentication)
 	if err != nil {
 		//something bad happened
 		return err
@@ -94,7 +94,7 @@ func resourceGPOLinkRead(d *schema.ResourceData, m interface{}) error {
 			}
 		}
 	`
-		_, err := goPSRemoting.RunPowershellCommand(client.username, client.password, client.server, psCommand, client.usessl, client.usessh)
+		_, err := goPSRemoting.RunPowershellCommand(client.username, client.password, client.server, psCommand, client.usessl, client.usessh, client.authentication)
 	if err != nil {
 		if !strings.Contains(err.Error(), "ObjectNotFound") {
 			//something bad happened
@@ -129,7 +129,7 @@ func resourceGPOLinkDelete(d *schema.ResourceData, m interface{}) error {
 
 	psCommand = "Remove-GPLink -Name " + name + "-Target " + organizational_unit + " -Confirm:$false -Force"
 
-    	_, err := goPSRemoting.RunPowershellCommand(client.username, client.password, client.server, psCommand, client.usessl, client.usessh)
+    	_, err := goPSRemoting.RunPowershellCommand(client.username, client.password, client.server, psCommand, client.usessl, client.usessh, client.authentication)
 	if err != nil {
 		//something bad happened
 		return err

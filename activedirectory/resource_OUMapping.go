@@ -45,7 +45,7 @@ func resourceOUMappingCreate(d *schema.ResourceData, m interface{}) error {
 	var id string = object_name + "_" + object_class + "_" + target_path
 
 	var psCommand string = "Get-ADObject -Filter {(name -eq \\\"" + object_name + "\\\") -AND (ObjectClass -eq \\\"" + object_class + "\\\")} | Move-ADObject -TargetPath \\\"" + target_path + "\\\" -Confirm:$false"
-	_, err := goPSRemoting.RunPowershellCommand(client.username, client.password, client.server, psCommand, client.usessl, client.usessh)
+	_, err := goPSRemoting.RunPowershellCommand(client.username, client.password, client.server, psCommand, client.usessl, client.usessh, client.authentication)
 	if err != nil {
 		//something bad happened
 		return err
@@ -68,7 +68,7 @@ func resourceOUMappingRead(d *schema.ResourceData, m interface{}) error {
 	target_path := d.Get("target_path").(string)
 
         var psCommand string = "$object = Get-ADObject -SearchBase \\\"" + target_path + "\\\" -Filter {(name -eq \\\"" + object_name + "\\\") -AND (ObjectClass -eq \\\"" + object_class + "\\\")}; if (!$object) { Write-Host 'TERRAFORM_NOT_FOUND' }"
-	stdout, err := goPSRemoting.RunPowershellCommand(client.username, client.password, client.server, psCommand, client.usessl, client.usessh)
+	stdout, err := goPSRemoting.RunPowershellCommand(client.username, client.password, client.server, psCommand, client.usessl, client.usessh, client.authentication)
 	if err != nil {
 		//something bad happened
 		return err
@@ -100,7 +100,7 @@ func resourceOUMappingDelete(d *schema.ResourceData, m interface{}) error {
 		psCommand = "$container = Get-ADObject \\\"" + client.default_computer_container + "\\\"; Get-ADObject -Filter {(name -eq \\\"" + object_name + "\\\") -AND (ObjectClass -eq \\\"" + object_class + "\\\")} | Move-ADObject -TargetPath $container.DistinguishedName -Confirm:$false"
 	}
 
-	_, err := goPSRemoting.RunPowershellCommand(client.username, client.password, client.server, psCommand, client.usessl, client.usessh)
+	_, err := goPSRemoting.RunPowershellCommand(client.username, client.password, client.server, psCommand, client.usessl, client.usessh, client.authentication)
 	if err != nil {
 		//something bad happened
 		return err

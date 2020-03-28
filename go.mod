@@ -1,8 +1,8 @@
-module github.com/portofportland/terraform-provider-activedirectory
+module github.com/jpatigny/terraform-provider-activedirectory
 
-go 1.12
+go 1.01
 
 require (
-	github.com/hashicorp/terraform v0.12.0
-	github.com/portofportland/goPSRemoting v0.1.0
+	github.com/hashicorp/terraform v0.12.24
+	github.com/jpatigny/goPSRemoting
 )

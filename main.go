@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/hashicorp/terraform/plugin"
-	"github.com/portofportland/terraform-provider-activedirectory/activedirectory"
+	"github.com/jpatigny/terraform-provider-activedirectory/activedirectory"
 )
 
 func main() {

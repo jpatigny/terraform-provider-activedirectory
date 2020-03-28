@@ -2,7 +2,7 @@ package activedirectory
 
 import (
 	"github.com/hashicorp/terraform/helper/schema"
-	"github.com/portofportland/goPSRemoting"
+	"github.com/jpatigny/goPSRemoting"
 
 	"strings"
 	"fmt"

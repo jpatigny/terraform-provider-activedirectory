@@ -42,6 +42,12 @@ func Provider() terraform.ResourceProvider {
                                 DefaultFunc: schema.EnvDefaultFunc("USESSH", false),
                                 Description: "Whether or not to use SSH to connect to WinRM",
                         },
+                        "authentication": &schema.Schema{
+                                Type:        schema.TypeString,
+                                Optional:    true,
+                                DefaultFunc: schema.EnvDefaultFunc("AUTHENTICATION", false),
+                                Description: "Authentication protocol for WinRM",
+                        },
                         "default_computer_container": &schema.Schema{
                                 Type:        schema.TypeString,
                                 Optional:    true,
@@ -52,6 +58,7 @@ func Provider() terraform.ResourceProvider {
                 ResourcesMap: map[string]*schema.Resource{
                         "activedirectory_ouMapping": resourceOUMapping(),
                         "activedirectory_groupMembership": resourcegroupMembership(),
+                        "activedirectory_ou": resourceOU(),
                 },
 
                 ConfigureFunc: providerConfigure,
@@ -75,7 +82,8 @@ func providerConfigure(d *schema.ResourceData) (interface{}, error) {
 		return nil, fmt.Errorf("The 'server' property was not specified.")
 	}
 
-	usessl := d.Get("usessl").(string)
+        usessl := d.Get("usessl").(string)
+        authentication := d.Get("authentication").(string)
 	default_computer_container := d.Get("default_computer_container").(string)
 
 	client := ActiveDirectoryClient {
@@ -83,7 +91,8 @@ func providerConfigure(d *schema.ResourceData) (interface{}, error) {
 		password:			password,
 		server:				server,
 		usessl:				usessl,
-		usessh:				usessh,
+                usessh:				usessh,
+                authentication:                 authentication,
 		default_computer_container:	default_computer_container,
 	}
 
@@ -95,6 +104,7 @@ type ActiveDirectoryClient struct {
 	password			string
 	server				string
 	usessl				string
-	usessh				string
+        usessh				string
+        authentication                  string
 	default_computer_container	string
 }

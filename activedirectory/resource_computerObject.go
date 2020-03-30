@@ -15,12 +15,12 @@ func resourcecomputerObject() *schema.Resource {
 		Update: resourcecomputerObjectCreate,
 
 		Schema: map[string]*schema.Schema{
-			"Name": &schema.Schema{
+			"name": &schema.Schema{
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"DistName": &schema.Schema{
+			"distname": &schema.Schema{
 				Type:     schema.TypeString,
 				Required: true,
 			},
@@ -33,10 +33,10 @@ func resourcecomputerObjectCreate(d *schema.ResourceData, m interface{}) error {
 	client := m.(*ActiveDirectoryClient)
 
 	name := d.Get("name").(string)
-	DistName := d.Get("DistName").(string)
+	distname := d.Get("distname").(string)
 
 	var id string = name
-	var psCommand string = "$object = New-ADComputer -Name \\\"" + name + "\\\" -SamAccountName \\\"" + name + "\\\" -Path \\\"" + DistName + "\\\" -Confirm:$false"
+	var psCommand string = "$object = New-ADComputer -Name \\\"" + name + "\\\" -SamAccountName \\\"" + name + "\\\" -Path \\\"" + distname + "\\\" -Confirm:$false"
 
 	_, err := goPSRemoting.RunPowershellCommand(client.username, client.password, client.server, psCommand, client.usessl, client.usessh, client.authentication)
 	if err != nil {

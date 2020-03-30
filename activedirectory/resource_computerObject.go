@@ -23,7 +23,6 @@ func resourcecomputerObject() *schema.Resource {
 			"DistName": &schema.Schema{
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 		},
 	}

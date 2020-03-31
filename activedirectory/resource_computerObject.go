@@ -5,6 +5,7 @@ import (
 
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/jpatigny/goPSRemoting"
+	"github.com/wayfair/terraform-provider-utils/log"
 )
 
 func resourcecomputerObject() *schema.Resource {
@@ -29,11 +30,14 @@ func resourcecomputerObject() *schema.Resource {
 }
 
 func resourcecomputerObjectCreate(d *schema.ResourceData, m interface{}) error {
-	//convert the interface so we can use the variables like username, etc
+	log.Tracef("resourcecomputerObject.go#Create")
 	client := m.(*ActiveDirectoryClient)
 
 	name := d.Get("name").(string)
 	distname := d.Get("distname").(string)
+
+	log.Debug("Computer Name: [%+v]", name)
+	log.Debug("OU: [%+v]", distname)
 
 	var id string = name
 	var psCommand string = "$object = New-ADComputer -Name \\\"" + name + "\\\" -SamAccountName \\\"" + name + "\\\" -Path \\\"" + distname + "\\\" -Confirm:$false"
@@ -44,13 +48,15 @@ func resourcecomputerObjectCreate(d *schema.ResourceData, m interface{}) error {
 		return err
 	}
 
+	log.Debug("Create computer name: [%+v]", name)
+
 	d.SetId(id)
 
 	return nil
 }
 
 func resourcecomputerObjectRead(d *schema.ResourceData, m interface{}) error {
-	//convert the interface so we can use the variables like username, etc
+	log.Tracef("resourcecomputerObject.go#Read")
 	client := m.(*ActiveDirectoryClient)
 
 	name := d.Get("name").(string)
@@ -61,6 +67,7 @@ func resourcecomputerObjectRead(d *schema.ResourceData, m interface{}) error {
 		//something bad happened
 		return err
 	}
+	log.Debug("Read computer name: [%+v]", name)
 
 	if strings.Contains(stdout, "TERRAFORM_NOT_FOUND") {
 		//not able to find the record - this is an error but ok
@@ -74,7 +81,7 @@ func resourcecomputerObjectRead(d *schema.ResourceData, m interface{}) error {
 }
 
 func resourcecomputerObjectDelete(d *schema.ResourceData, m interface{}) error {
-	//convert the interface so we can use the variables like username, etc
+	log.Tracef("resourcecomputerObject.go#Delete")
 	client := m.(*ActiveDirectoryClient)
 
 	name := d.Get("name").(string)

@@ -2,9 +2,7 @@ package activedirectory
 
 import (
 	"fmt"
-	"log"
-	
-	logger "github.com/wayfair/terraform-provider-utils/log"
+
 	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 )
@@ -110,12 +108,4 @@ type ActiveDirectoryClient struct {
 	usessh                     string
 	authentication             string
 	default_computer_container string
-}
-
-// Configuration options for the provider logging
-type LoggingConfig struct {
-	// The log level to use
-	LogLevel logger.LogLevel
-	// The path to the log file
-	LogFile string
 }
